@@ -10,8 +10,26 @@
 <body>
 
     <h1> Welcome {{ loggedUser }}</h1>
+    <div>
+        {% if devices_data %}
+        <h2> Devices </h2>
+        <ul>
+            {% for device in devices_data %}
+            <li>
+                {{ device['name'] }}
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
 
-    <button type="submit"> <a href="/logout">Logout</a></button>
+
+
+    </div>
+
+
+    <button type="submit"><a href="/logout">Logout</a></button>
+    <h1> {{ error }}</h1>
+
 
 </body>
 

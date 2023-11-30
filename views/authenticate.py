@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session
 import requests
 from requests.auth import HTTPBasicAuth
-import json
+
 
 login_bp = Blueprint('login', __name__)
 logout_bp = Blueprint('logout', __name__)
@@ -21,22 +21,14 @@ def login():
 
 
         if traccar_response.status_code == 200:
+            traccar_data = traccar_response.json()
             session_cookie = traccar_response.cookies.get('JSESSIONID')
             session['traccar_session_cookie'] = session_cookie
-
-            traccar_data = traccar_response.json()
-
-            print(traccar_data) #this is for debug
+            session['traccar_logged_user'] = traccar_data['name']
             
-            devices_api_url = f'https://track.roie.com.ng/api/devices'
-            traccar_apiHeader = {'Cookie': f'JSESSIONID={session_cookie}'}
-            devices_response = requests.get(devices_api_url, headers=traccar_apiHeader)
+            print(traccar_data['name']) #this is for debug
 
-            if devices_response.status_code == 200:
-                devices_data = devices_response.json()
-                for i in devices_data:
-                    print(i['name'])
-            return redirect(url_for('index', username = 'username'))
+            return redirect(url_for('index'))
         else:
             return render_template('index.html', error='Invalid Credentials')
     return render_template('index.html')
