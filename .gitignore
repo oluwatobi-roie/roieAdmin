@@ -1,9 +1,0 @@
-# Ignore virtual enviroment
-myenv/
-
-# Ignore all Compiled python file
-*.pyc
-
-
-# ignore sensitive credentials
-touch.py
