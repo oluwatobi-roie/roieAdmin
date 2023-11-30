@@ -4,23 +4,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title> Admin | Login Page </title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 </head>
 
 <body>
-    <h1> This is the Index Page</h1>
-    <div>
-        <form action="/login" method="post">
+    <section class="admin_login_page">
+        <div class="login_section">
             <h2> Login </h2>
-            <p> {{ error }}</p>
-            <label for="username"> Username </label>
-            <input type="text" name="username" id="username" placeholder="Email Address ">
-            <label for="password"> Password </label>
-            <input type="password" name="password" id="password" placeholder="password">
-            <button type="submit">Login</button>
-        </form>
 
-    </div>
+            <form action="/login" method="post" class="login_form">
+                <p class="error"> {{ error }}</p>
+                <div class="form_item">
+                    <label for="username"> Email* </label>
+                    <input type="email" name="username" id="username" placeholder="Email Address" required>
+                </div>
+
+                <div class="form_item">
+                    <label for="password"> Password* </label>
+                    <input type="password" name="password" id="password" placeholder="password" required>
+                </div>
+                
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </section>
 </body>
 
 </html>

@@ -1,0 +1,90 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #012345;
+    background-color: #fefefe;
+    overflow-y: hidden;
+    overflow-x: hidden;
+
+}
+
+.admin_login_page{
+    width: 100%;
+    height: 100%;
+
+}
+
+.login_section{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 30%;
+    height: 50%;
+    transform: translate(-50%, -50%);
+    margin: auto;
+    border: #012345 solid 1px;
+    box-shadow: 3px 3px 3px black;
+    padding: 10px;
+}
+
+.login_section h2{
+    text-align: center;
+    text-transform: uppercase;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 700;
+}
+
+.login_form{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80%;
+    transform: translate(-50%, -50%);
+    /* border: solid 1px red; */
+}
+
+.error{
+    text-transform: lowercase;
+    font-size: 0.8em;
+    color: red;
+    text-align: center;
+}
+
+
+.form_item{
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    margin-bottom: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 500;
+    font-size: 0.8em;
+}
+
+.form_item input{
+    border: 1px solid #012345;
+    height: 1.5em;
+    padding-left: 10px;
+}
+
+.login_form button{
+    width: 100%;
+    height: 40px;
+    position: absolute;
+    bottom: -60px;
+    background: #02376b;
+    color: #fff;
+    border-radius: 10px;
+}
+
+.login_form button:hover{
+    background: #012345;
+    color: fff
+}
+
+@media screen and (max-width: 480px) {
+    .login_section{
+        width: 80%;
+    }
+}
+
