@@ -6,12 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-    <script src="{{ url_for('static', filename='script/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='scripts/main.js') }}"></script>
 </head>
 
 <body>
 
     <h1> Welcome {{ user_name }}</h1>
+    <button type="submit"><a href="/logout">Logout</a></button>
     <button class="task_button" onclick="showAddDeviceForm()"> Add New Device </button>
 
     <div class="add-device-form">
@@ -43,7 +44,6 @@
     </div>
 
 
-    <button type="submit"><a href="/logout">Logout</a></button>
     <h1>{{ error }}</h1>
 
 
