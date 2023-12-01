@@ -82,6 +82,19 @@ body {
     color: fff
 }
 
+.close_btn{
+    display: none;
+}
+
+
+
+/* ************************************************************ Styling for Dashboard starts here ************************************************************ */
+.add-device-form{
+    display: none;
+}
+
+
+
 @media screen and (max-width: 480px) {
     .login_section{
         width: 80%;

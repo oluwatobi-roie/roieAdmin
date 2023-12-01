@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Admin Dashbord</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <script src="{{ url_for('static', filename='scripts/main.js') }}"></script>
 </head>
@@ -13,16 +13,58 @@
 
     <h1> Welcome {{ user_name }}</h1>
     <button type="submit"><a href="/logout">Logout</a></button>
-    <button class="task_button" onclick="showAddDeviceForm()"> Add New Device </button>
+    <button class="task_button add_btn" onclick="showAddDeviceForm()"> Add New Device </button>
+    <button type="button" class="close_btn" onclick="hideAddDeviceForm()">Close</button>
 
-    <div class="add-device-form">
+    <div class="add-device-form">   
         <h2>Add New Device</h2>
         <form id="deviceForm" onsubmit="addDevice(event)">
             <!-- Add your input fields here -->
-            <label for="deviceName">Device Name:</label>
-            <input type="text" id="deviceName" name="deviceName" required>
-            <label for="deviceType">Device Type:</label>
-            <input type="text" id="deviceType" name="deviceType" required>
+
+            <div class="device-info">
+                <div class="add-device-form-item">
+                    <label for="platenumber">Plate Number:</label>
+                    <input type="text" id="platenumber" name="platenumber" placeholder="Plate Number" required>
+                </div>
+
+                <div class="add-device-form-item">
+                    <label for="uniqueid">Device Imei:</label>
+                    <input type="number" id="uniqueid" name="uniqueid" placeholder="Device Imei" required>
+                </div>
+
+                <div class="add-device-form-item">
+                    <label for="devicephone">Device Phone:</label>
+                    <input type="phone" id="devicephone" name="devicephone" placeholder="08012345678" required>
+                </div>
+
+                <div class="add-device-form-item">
+                    <label for="simcarrier"> Sim Carrier </label>
+                    <select name="simcarrier" id="simcarrier">
+                        <option value="9mobile" selected>9mobile</option>
+                        <option value="MTN">MTN</option>
+                        <option value="Airtel">Airtel</option>
+                    </select>
+                </div>
+                
+                <div class="add-device-form-item">
+                    <label for="category">Category</label>
+                    <select name="category" id="category">
+                        <option value="Car" selected>Car</option>
+                        <option value="SUV" selected>Suv</option>
+                        <option value="Truck" selected>Truck</option>
+                        <option value="Okada" selected>Okada</option>
+                        <option value="Others" selected>Others</option>
+                    </select>
+                </div>
+
+                <div class="add-device-form-item">
+                    <label for="renewalcost">Renewal Cost</label>
+                    <input type="number" name="renewalcost" id="renewalcost">
+                </div>
+                
+                <div class="add-device-form-item">
+                </div>
+            </div>
             <button type="submit">Add Device</button>
         </form>
     </div>
