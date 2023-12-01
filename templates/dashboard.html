@@ -5,11 +5,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <script src="{{ url_for('static', filename='script/main.js') }}"></script>
 </head>
 
 <body>
 
     <h1> Welcome {{ user_name }}</h1>
+    <button class="task_button" onclick="showAddDeviceForm()"> Add New Device </button>
+
+    <div class="add-device-form">
+        <h2>Add New Device</h2>
+        <form id="deviceForm" onsubmit="addDevice(event)">
+            <!-- Add your input fields here -->
+            <label for="deviceName">Device Name:</label>
+            <input type="text" id="deviceName" name="deviceName" required>
+            <label for="deviceType">Device Type:</label>
+            <input type="text" id="deviceType" name="deviceType" required>
+            <button type="submit">Add Device</button>
+        </form>
+    </div>
+    
     <div>
         {% if devices_data %}
         <h2> Devices </h2>
@@ -28,7 +44,7 @@
 
 
     <button type="submit"><a href="/logout">Logout</a></button>
-    <h1> {{ error }}</h1>
+    <h1>{{ error }}</h1>
 
 
 </body>
