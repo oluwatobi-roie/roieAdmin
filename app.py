@@ -1,7 +1,7 @@
 from touch import myKey #this is unique to my code to import my flask app key
 from flask import Flask, session, render_template
 from views.authenticate import login_bp, logout_bp
-from views.functions import adddevice_bp
+from views.functions import adddevice_bp, reg_user_bp
 from views.utils import get_devices
 
 
@@ -11,6 +11,8 @@ app.secret_key = myKey
 app.register_blueprint(login_bp)
 app.register_blueprint(logout_bp)
 app.register_blueprint(adddevice_bp)
+app.register_blueprint(reg_user_bp)
+
 
 @app.route('/')
 def index():
