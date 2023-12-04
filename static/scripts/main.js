@@ -40,13 +40,18 @@ function addDevice(event) {
         },
         body: JSON.stringify(data)
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status} - ${response.statusText}`);
+        }
+        return response.json();
+    })
     .then(result => {
         // Handle the result if needed
         console.log(result);
         document.querySelector('.add-device-form').style.display = 'none';
     })
     .catch(error => {
-        console.error('Error:', error);
+        console.error('Error:', error.message);
     });
 }
