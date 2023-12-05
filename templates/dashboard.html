@@ -13,8 +13,17 @@
 
     <h1> Welcome {{ user_name }}</h1>
     <button type="submit"><a href="/logout">Logout</a></button>
-    <button class="task_button add_btn" onclick="showAddDeviceForm()"> Add New Device </button>
-    <button type="button" class="close_btn" onclick="hideAddDeviceForm()">Close</button>
+
+    <!-- button to open and close add device form -->
+    <button class="task_button add_btn" 
+    onclick="showAddDeviceForm()"> Add New Device </button>
+    <button type="button" class="close_btn" onclick="hideAddDeviceForm()">Close Device Forms</button>
+
+    <!-- button to open and close add user form -->
+    <button class="task_button add_user_btn" onclick="showAddUserForm()"> Add New User </button>
+
+    <button class="task_button close_user_btn" onclick="hideAddUserForm()"> Close User Form </button>
+
 
     <div class="add-device-form">   
         <h2>Add New Device</h2>
@@ -63,6 +72,32 @@
                 </div>
                 
                 <div class="add-device-form-item">
+                </div>
+            </div>
+            <button type="submit">Add Device</button>
+        </form>
+    </div>
+
+
+    <div class="add-user-form">
+        <h2>Add New User </h2>
+        <form id="userFor" onsubmit="addUsers(event)">
+            <!-- Add your input fields here -->
+    
+            <div class="user-info">
+                <div class="add-user-form-item">
+                    <label for="u_name">full Name</label>
+                    <input type="text" id="u_name" name="u_name" placeholder="Full Name" required>
+                </div>
+    
+                <div class="add-user-form-item">
+                    <label for="u_email">Email: </label>
+                    <input type="email" id="u_email" name="u_email" placeholder="example@example.com" required>
+                </div>
+    
+                <div class="add-user-form-item">
+                    <label for="u_phone">Phone:</label>
+                    <input type="phone" id="u_phone" name="u_phone" placeholder="08012345678" required>
                 </div>
             </div>
             <button type="submit">Add Device</button>

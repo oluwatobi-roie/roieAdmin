@@ -11,6 +11,19 @@ function hideAddDeviceForm(){
     document.querySelector('.close_btn').style.display = 'none';
 }
 
+function showAddUserForm() {
+    // Show the add device form
+    document.querySelector('.add-user-form').style.display = 'block';
+    document.querySelector('.close_user_btn').style.display = 'block';
+    document.querySelector('.add_user_btn').style.display = 'none';
+}
+
+function hideAddUserForm(){
+    document.querySelector('.add-user-form').style.display = 'none'
+    document.querySelector('.add_user_btn').style.display = 'block';
+    document.querySelector('.close_user_btn').style.display = 'none';
+}
+
 
 function addDevice(event) {
     event.preventDefault();
@@ -50,6 +63,51 @@ function addDevice(event) {
         // Handle the result if needed
         console.log(result);
         document.querySelector('.add-device-form').style.display = 'none';
+    })
+    .catch(error => {
+        console.error('Error:', error.message);
+    });
+}
+
+
+function addUsers(event) {
+    event.preventDefault();
+
+    // Get input values
+    const u_name = document.getElementById('u_name').value;
+    const u_email = document.getElementById('u_email').value;
+    const u_phone = document.getElementById('u_phone').value;
+    //add expiration time from backend.
+    
+    
+   
+    // Prepare the data to send to Flask in Json
+    const data = {
+        name: u_name,
+        email: u_email,
+        phone: u_phone,
+    };
+    
+
+    fetch('/reg_user', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status} - ${response.statusText}`);
+        }
+        return response.json();
+    })
+    .then(result => {
+        // Handle the result if needed
+        console.log(result);
+        document.querySelector('.add-user-form').style.display = 'none';
+        document.querySelector('.close_user_btn').style.display = 'none';
+        document.querySelector('.add_user_btn').style.display = 'block';
     })
     .catch(error => {
         console.error('Error:', error.message);

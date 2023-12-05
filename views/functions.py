@@ -1,7 +1,8 @@
 import requests 
 from flask import session, Blueprint, request, render_template
-from touch import roie_endpoint as endpoint
+from touch import roie_endpoint as endpoint, getOneYearDate, randomPassword
 from views.utils import get_devices
+
 
 
 # declare some global variables that wwil be used here. 
@@ -53,17 +54,35 @@ def reg_user():
     if 'traccar_session_cookie' in session:
         if request.method == 'POST':
             traccar_api_headers = {'Cookie': f'JSESSIONID = {session_cookie}'}
+            print(request)
+            default_atribute = {
+                "mapLiveRoutes":"selected",
+                "mapFollow":"true",
+                "deviceSecondary":"phone",
+                "activeMapStyles":",googleRoad,googleSatellite,googleHybrid,custom",
+                "positionItems":"speed,address,motion,ignition,fixTime,deviceTime,alarm,blocked"
+            }
+# , # # 
             data = {
-                'name': request.json.get('plateNumber'),
-                'uniqueId': request.json.get('uniqueId'),
-                'phone': request.json.get('devicePhone'),
-                'category': request.json.get('category'),
-                    }
+                # 'id': 872,
+                'name': request.json.get('name'),
+                'email': request.json.get('email'),
+                'phone': request.json.get('phone'),
+                'fixedEmail': 'true',
+                'deviceReadonly': 'true',
+                'expirationTime': getOneYearDate(),
+                'password': randomPassword(8),
+                'attributes': default_atribute,
+
+                }
             
             # Send mapped devices to traccar api
-
+            print(data)
+            print(user_api_url)
             response = requests.post(user_api_url, json=data, headers=traccar_api_headers)
+
             print(response)
+
             # Check the Traccar API response
             if response.status_code == 200:
                 get_devices(session_cookie)

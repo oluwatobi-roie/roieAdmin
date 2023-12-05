@@ -7,7 +7,7 @@ login_bp = Blueprint('login', __name__)
 logout_bp = Blueprint('logout', __name__)
 
 
-@login_bp.route('/login', methods=['POST'])
+@login_bp.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         # get data from the login form
@@ -36,6 +36,7 @@ def login():
         else:
             return render_template('index.html', error='Invalid Credentials')
     return render_template('index.html')
+    # return redirect(url_for('index'))
 
 
 

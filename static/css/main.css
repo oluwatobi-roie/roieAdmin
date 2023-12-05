@@ -82,14 +82,15 @@ body {
     color: fff
 }
 
-.close_btn{
+.close_btn, .close_user_btn{
     display: none;
 }
 
 
 
+
 /* ************************************************************ Styling for Dashboard starts here ************************************************************ */
-.add-device-form{
+.add-device-form, .add-user-form{
     display: none;
 }
 
