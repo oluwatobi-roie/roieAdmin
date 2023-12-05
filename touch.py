@@ -34,22 +34,27 @@ def randomPassword(length):
 
 
 
+# define a notification wizard to set notification for certain clients.
 def notification_wizard(type):
+    # save basic notifications in an array
     basic_notification = ['ignitionOn', 'ignitionOff', 'geoefenceEnter', 'geofenceExit']
-    if type == basic_notification:
+
+    # check if passed variable is in an basic notification
+    if type in basic_notification:
         data = {
             "always":'true',
             "type":type,
             "notificators":"traccar,firebase,web"
         }
         return data
-
-    type == 'alarm'
-    data = {
-        "attributes": {"alarms":"powerCut"},
-	    "always":'true',
-	    "type":"alarm",
-	    "notificators":"traccar,firebase,web,mail"
-    }
-    return  data
+    
+    # if type is an alarm include formating for alarm
+    else:
+        data = {
+            "attributes": {"alarms":"powerCut"},
+            "always":'true',
+            "type":"alarm",
+            "notificators":"traccar,firebase,web,mail"
+        }
+        return  data
     

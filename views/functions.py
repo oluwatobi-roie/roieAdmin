@@ -1,6 +1,6 @@
 import requests 
 from flask import session, Blueprint, request, render_template
-from touch import roie_endpoint as endpoint, getOneYearDate, randomPassword
+from touch import roie_endpoint as endpoint, getOneYearDate, randomPassword, notification_wizard
 from views.utils import get_devices
 
 
@@ -8,6 +8,7 @@ from views.utils import get_devices
 # declare some global variables that wwil be used here. 
 devices_api_url = f'{endpoint}devices'
 user_api_url = f'{endpoint}users'
+notification_api_url = f'{endpoint}notifications'
 
 # blueprint for our add device url
 adddevice_bp = Blueprint('add_device', __name__)
@@ -54,7 +55,7 @@ def reg_user():
     if 'traccar_session_cookie' in session:
         if request.method == 'POST':
             traccar_api_headers = {'Cookie': f'JSESSIONID = {session_cookie}'}
-            print(request)
+
             default_atribute = {
                 "mapLiveRoutes":"selected",
                 "mapFollow":"true",
@@ -62,9 +63,7 @@ def reg_user():
                 "activeMapStyles":",googleRoad,googleSatellite,googleHybrid,custom",
                 "positionItems":"speed,address,motion,ignition,fixTime,deviceTime,alarm,blocked"
             }
-# , # # 
             data = {
-                # 'id': 872,
                 'name': request.json.get('name'),
                 'email': request.json.get('email'),
                 'phone': request.json.get('phone'),
@@ -77,19 +76,21 @@ def reg_user():
                 }
             
             # Send mapped devices to traccar api
-            print(data)
-            print(user_api_url)
             response = requests.post(user_api_url, json=data, headers=traccar_api_headers)
 
             print(response)
 
             # Check the Traccar API response
             if response.status_code == 200:
-                get_devices(session_cookie)
-                return response.json()  # or any other desired response
+
+                notification_lists = ['ignitionOn', 'ignitionOff', 'geofenceExit', 'geofenceEnter', 'alarm']
+                for i in notification_lists:
+                    requests.post(notification_api_url, json=notification_wizard(i), headers=traccar_api_headers)
+
+                return response.json()  # or any other desired 
                 
             else:
-                return f'Error: {response.status_code} - {response.text}'
+                return f'Add User Error: {response.status_code} - {response.text}'
             
         return None
     return render_template('index.html')
