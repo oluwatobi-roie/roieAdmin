@@ -1,6 +1,7 @@
 import requests 
 from flask import session, Blueprint, request, render_template
 from touch import roie_endpoint as endpoint, getOneYearDate, randomPassword, notification_wizard
+from sqlScripts import assign_user_notification
 from views.utils import get_devices
 
 
@@ -72,21 +73,37 @@ def reg_user():
                 'expirationTime': getOneYearDate(),
                 'password': randomPassword(8),
                 'attributes': default_atribute,
-
                 }
             
             # Send mapped devices to traccar api
             response = requests.post(user_api_url, json=data, headers=traccar_api_headers)
 
-            print(response)
 
             # Check the Traccar API response
             if response.status_code == 200:
+                # create a list of all the notification that will be created for this session
+                notification_id_list = []
 
-                notification_lists = ['ignitionOn', 'ignitionOff', 'geofenceExit', 'geofenceEnter', 'alarm']
+                # save the userID that has just been created in a variable
+                user_id = response.json().get('id')
+                print(f"User Successfully Created with ID: {user_id}")
+
+                # List all the notification that are of interest to us
+                # notification_lists = ['ignitionOn', 'ignitionOff', 'geofenceExit', 'geofenceEnter', 'alarm']
+                notification_lists = ['ignitionOn', 'ignitionOff']
+
+
                 for i in notification_lists:
-                    requests.post(notification_api_url, json=notification_wizard(i), headers=traccar_api_headers)
+                    response = requests.post(notification_api_url, json=notification_wizard(i), headers=traccar_api_headers)
+                    
+                    # save the ID's of all the notification created for sql to move
+                    notification_id = response.json().get('id')
+                    notification_id_list.append(notification_id)
+                    print(f"{i} Notification Created with ID {notification_id}")
+                print(notification_id_list)
 
+
+                assign_user_notification(user_id, notification_id_list)
                 return response.json()  # or any other desired 
                 
             else:

@@ -3,7 +3,7 @@ myenv/
 
 # Ignore all Compiled python file
 *.pyc
-
+credentials.py
 
 # ignore sensitive credentials
 # touch.py
