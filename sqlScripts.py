@@ -15,15 +15,10 @@ def assign_user_notification(new_user_id, notifications):
         # Create a cursor object to execute SQL queries
         cursor = connection.cursor(buffered=True)
 
-        # query = f'UPDATE tc_user_notification SET userid = {new_user_id} WHERE notificationid BETWEEN {notifications[0]} AND {notifications[-1]};'
-
-        # cursor.execute(query)
-
-
         query = 'UPDATE tc_user_notification SET userid = %s WHERE notificationid BETWEEN %s AND %s;'
 
         cursor.execute(query, (new_user_id, notifications[0], notifications[-1]))
-        
+
         connection.commit()
 
         if cursor.rowcount > 0:
