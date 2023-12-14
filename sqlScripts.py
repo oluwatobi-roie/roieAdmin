@@ -18,7 +18,6 @@ def assign_user_notification(new_user_id, notifications):
         query = 'UPDATE tc_user_notification SET userid = %s WHERE notificationid BETWEEN %s AND %s;'
 
         cursor.execute(query, (new_user_id, notifications[0], notifications[-1]))
-
         connection.commit()
 
         if cursor.rowcount > 0:

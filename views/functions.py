@@ -89,8 +89,8 @@ def reg_user():
                 print(f"User Successfully Created with ID: {user_id}")
 
                 # List all the notification that are of interest to us
-                # notification_lists = ['ignitionOn', 'ignitionOff', 'geofenceExit', 'geofenceEnter', 'alarm']
-                notification_lists = ['ignitionOn', 'ignitionOff']
+                notification_lists = ['ignitionOn', 'ignitionOff', 'geofenceExit', 'geofenceEnter', 'alarm']
+                # notification_lists = ['ignitionOn', 'ignitionOff']
 
 
                 for i in notification_lists:
