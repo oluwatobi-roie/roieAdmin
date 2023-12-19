@@ -1,3 +1,0 @@
-Flask
-Requests
-mysql-connector-python
