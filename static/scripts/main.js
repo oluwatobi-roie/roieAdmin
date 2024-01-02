@@ -1,3 +1,10 @@
+
+document.addEventListener('DOMContentLoaded', function () {
+    const linkToUserBtn = document.getElementById('linkToUserBtn');
+    linkToUserBtn.addEventListener('click', showLinkToUserDialog);
+});
+
+
 function showAddDeviceForm() {
     // Show the add device form
     document.querySelector('.add-device-form').style.display = 'block';
@@ -112,4 +119,40 @@ function addUsers(event) {
     .catch(error => {
         console.error('Error:', error.message);
     });
+}
+
+
+function showLinkToUserDialog(event) {
+    const deviceId = event.target.getAttribute('data-device-id');
+
+    const email = prompt('Enter the email address of the user:');
+    if (email) {
+        checkUserExistence(email, deviceId)
+    }
+}
+
+function checkUserExistence(email, deviceId){
+    fetch('/check_user_existence', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({email: email})
+    } )
+    .then(response => response.json())
+    .then(data => {
+        if (data.exists) {
+            const verificationCode = prompt('Enter Confirmation Code')
+            if (verificationCode && verificationCode === data.verification_code){
+                link_device_to_user(email, deviceId)
+            }
+        }
+    })
+
+}
+
+function link_device_to_user(email, deviceId){
+    fetch('/link_device'),{
+        
+    }
 }
