@@ -44,16 +44,49 @@ def search_user(email):
         # Create a cursor object to execute SQL queries
         cursor = connection.cursor(buffered=True)
 
-        query = 'SELECT email FROM tc_users WHERE email == %s;'
+        query = 'SELECT id, email FROM tc_users WHERE email = %s;'
 
-        cursor.execute(query, (email))
+        cursor.execute(query, (email,))
         connection.commit()
 
         if cursor.rowcount > 0:
-            print("User Found")
-            
+            user_data = cursor.fetchone()  # Fetch the first row
+            user_id = user_data[0]  # Get the id from the result
+            return True, user_id
         else:
             print("No User found")
+            return False, None
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+        return False, None
+
+    finally:
+        # Close the cursor and the connection in the 'finally' block to ensure they are always closed
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+            print("MySQL connection closed")
+
+
+def link_device_user(userid, deviceid):
+    try:
+        # Establish a connection to the MySQL database
+        connection = mysql.connector.connect(**database_config)
+
+        # Create a cursor object to execute SQL queries
+        cursor = connection.cursor(buffered=True)
+
+        query = 'INSERT INTO tc_user_device (userid, deviceid) VALUES (%s, %s);'
+
+        cursor.execute(query, (userid, deviceid))
+        connection.commit()
+
+        if cursor.rowcount > 0:
+            print("user Successfully Linked")
+            return True
+        else:
+            print("Something went Wrong")
+            return False
 
     except mysql.connector.Error as err:
         print(f"Error: {err}")
@@ -64,4 +97,3 @@ def search_user(email):
             cursor.close()
             connection.close()
             print("MySQL connection closed")
-

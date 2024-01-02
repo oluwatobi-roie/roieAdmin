@@ -111,7 +111,7 @@
         <ul>
             {% for device in devices_data %}
             <li>
-                {{ device['name'] }} <button type="button" id="linkToUserBtn" data-device-id="{{ device['id'] }}">Link to User</button>
+                {{ device['name'] }} <button type="button" class="linkToUserBtn" data-device-id="{{ device['id'] }}">Link to User</button>
             </li>
             {% endfor %}
         </ul>

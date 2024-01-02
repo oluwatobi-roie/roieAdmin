@@ -1,7 +1,9 @@
 
 document.addEventListener('DOMContentLoaded', function () {
-    const linkToUserBtn = document.getElementById('linkToUserBtn');
-    linkToUserBtn.addEventListener('click', showLinkToUserDialog);
+    const linkToUserBtns = document.querySelectorAll('.linkToUserBtn');
+    linkToUserBtns.forEach(button => {
+        button.addEventListener('click', showLinkToUserDialog);
+    });
 });
 
 
@@ -132,7 +134,7 @@ function showLinkToUserDialog(event) {
 }
 
 function checkUserExistence(email, deviceId){
-    fetch('/check_user_existence', {
+    fetch('/check_user', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -143,16 +145,45 @@ function checkUserExistence(email, deviceId){
     .then(data => {
         if (data.exists) {
             const verificationCode = prompt('Enter Confirmation Code')
+            
             if (verificationCode && verificationCode === data.verification_code){
-                link_device_to_user(email, deviceId)
+                console.log("verification passed")
+                 userID = data.user_id
+                link_device_to_user(userID, deviceId)
+            }
+            else {
+                alert ('Verification Code incorrect, please try again')
             }
         }
+        else {
+            alert ('Email cant be found, Please enter a valid email')
+        }
     })
+    .catch(error => {
+           alert(console.error('Error:', error));
+        });
 
 }
 
-function link_device_to_user(email, deviceId){
-    fetch('/link_device'),{
-        
-    }
+function link_device_to_user(userID, deviceId){
+    fetch('/link_user', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({userid: userID, deviceid:deviceId})
+    } )
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert("Device Linked Succesfully")
+        }
+        else {
+            alert ('Something Went Wrong')
+        }
+    })
+    .catch(error => {
+           alert(console.error('Error:', error));
+        });
+
 }
