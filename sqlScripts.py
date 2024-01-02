@@ -34,3 +34,34 @@ def assign_user_notification(new_user_id, notifications):
             cursor.close()
             connection.close()
             print("MySQL connection closed")
+
+
+def search_user(email):
+    try:
+        # Establish a connection to the MySQL database
+        connection = mysql.connector.connect(**database_config)
+
+        # Create a cursor object to execute SQL queries
+        cursor = connection.cursor(buffered=True)
+
+        query = 'SELECT email FROM tc_users WHERE email == %s;'
+
+        cursor.execute(query, (email))
+        connection.commit()
+
+        if cursor.rowcount > 0:
+            print("User Found")
+            
+        else:
+            print("No User found")
+
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+
+    finally:
+        # Close the cursor and the connection in the 'finally' block to ensure they are always closed
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+            print("MySQL connection closed")
+
