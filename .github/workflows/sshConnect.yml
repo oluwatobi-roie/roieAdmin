@@ -23,4 +23,4 @@ jobs:
     - name: SSH into Remote Server and Execute Command
       run: ssh -i ~/.ssh/id_ed25519 root@45.32.179.99 'echo "Hello, Remote Server!"'
       env:
-        YOUR_PRIVATE_KEY_SECRET: ${{ secrets.VULTR_SSH_KEY  }}
+        YOUR_PRIVATE_KEY_SECRET: ${{ secrets.VULTR_EMAIL_KEY  }}
