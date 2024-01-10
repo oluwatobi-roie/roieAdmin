@@ -18,10 +18,13 @@ jobs:
         with:
           python-version: 3.x
 
-      - name: Check if requirements.txt has changes
+     - name: Check if requirements.txt has changes
         id: check_requirements
         run: |
-          echo "changed=$(if [ -n "$(git diff --name-only ${{ github.event.before }}..${{ github.sha }} | grep 'requirements.txt')"]; then echo 'true'; else echo 'false'; fi)" >> $GITHUB_ENV
+          git fetch
+          git diff --name-only ${{ github.event.before }}..${{ github.sha }} > changed_files.txt
+          cat changed_files.txt
+          echo "changed=$(if grep -q 'requirements.txt' changed_files.txt; then echo 'true'; else echo 'false'; fi)" >> $GITHUB_ENV
 
       - name: Install Dependencies
         if: env.changed == 'true'
