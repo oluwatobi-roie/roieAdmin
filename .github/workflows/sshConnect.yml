@@ -12,7 +12,10 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
-
+      
+    - name: Debug Private Key
+      run: cat ~/.ssh/id_ed25519
+      
     - name: Set up SSH
       run: |
         mkdir -p ~/.ssh/
