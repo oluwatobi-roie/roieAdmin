@@ -12,18 +12,11 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
+
+    - name: Set up SSH
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ secrets.VULTR_SSH_KEY }}
       
     - name: Debug Private Key
-      run: cat ~/.ssh/id_ed25519
-      
-    - name: Set up SSH
-      run: |
-        mkdir -p ~/.ssh/
-        echo "$YOUR_PRIVATE_KEY_SECRET" > ~/.ssh/id_ed25519
-        chmod 600 ~/.ssh/id_ed25519
-        ssh-keyscan -H 45.32.179.99 >> ~/.ssh/known_hosts
-
-    - name: SSH into Remote Server and Execute Command
-      run: ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no root@45.32.179.99 'echo "Hello, Remote Server!"'
-      env:
-        YOUR_PRIVATE_KEY_SECRET: ${{ secrets.VULTR_SSH_KEY  }}
+      run: echo "$SSH_PRIVATE_KEY"
