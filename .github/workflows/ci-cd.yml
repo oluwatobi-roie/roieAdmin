@@ -20,10 +20,11 @@ jobs:
 
       - name: Check if requirements.txt has changes
         id: check_requirements
-        run: echo "::set-output name=changed::$(if [ -n "$(git diff --name-only ${{ github.event.before }}.. ${{ github.sha }} | grep 'requirements.txt')"]; then echo 'true'; else echo 'false'; fi)"
+        run: |
+          echo "changed=$(if [ -n "$(git diff --name-only ${{ github.event.before }}..${{ github.sha }} | grep 'requirements.txt')"]; then echo 'true'; else echo 'false'; fi)" >> $GITHUB_ENV
 
       - name: Install Dependencies
-        if: steps.check_requirements.outputs.changed == 'true'
+        if: env.changed == 'true'
         run: |
           ssh -o StrictHostKeyChecking=no -i ${{ secrets.VULTR_SSH_KEY }} ${{ secrets.VULTR_SSH_USER }}@${{ secrets.VULTR_SERVER_IP }} "cd /opt/admin_roie/ && python3 -m venv myenv && source myenv/bin/activate && pip install --upgrade pip && pip install -r requirements.txt"
 
