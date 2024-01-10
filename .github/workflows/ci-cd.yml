@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubunutu-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
@@ -20,16 +20,23 @@ jobs:
 
       - name: Check if requirements.txt has changes
         id: check_requirements
-        run: echo "::set-output name=changed::$(if [ -n "$(git diff --name-only ${{ github.event.before }}.. ${{ github.sha }} | grep 'requirements.txt')"]; then echo 'true'; else echo 'false'; fi)"
+        run: |
+          if [ -n "$(git diff --name-only ${{ github.event.before }}..${{ github.sha }} | grep 'requirements.txt')" ]; then
+            echo "Changes detected in requirements.txt"
+            echo "::set-output name=changed::true"
+          else
+            echo "No changes in requirements.txt"
+            echo "::set-output name=changed::false"
+          fi
 
       - name: Install Dependencies
-        if: steps.check_requirements.outpurs.changed == 'true'
+        if: steps.check_requirements.outputs.changed == 'true'
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          ssh -o StrictHostKeyChecking=no -i ${{ secrets.VULTR_SSH_KEY }} ${{ secrets.VULTR_SSH_USER}}@${{ secrets.VULTR_SERVER_IP }} "cd /opt/admin_roie/ && python3 -m venv myenv && source myenv/bin/activate && pip install -r requirements.txt"
+          ssh -o StrictHostKeyChecking=no -i ${{ secrets.VULTR_SSH_KEY }} ${{ secrets.VULTR_SSH_USER }}@${{ secrets.VULTR_SERVER_IP }} "cd /opt/admin_roie/ && python3 -m venv myenv && source myenv/bin/activate && pip install -r requirements.txt"
 
-      - name: copy files to admin folder
+      - name: Copy files to admin folder
         run: |
           rsync -a --exclude='credentials.py' --exclude='*.dist' --exclude='myenv' -e "ssh -o StrictHostKeyChecking=no -i ${{ secrets.VULTR_SSH_KEY }}" ./ ${{ secrets.VULTR_SSH_USER }}@${{ secrets.VULTR_SERVER_IP }}:/opt/admin_roie/
 
