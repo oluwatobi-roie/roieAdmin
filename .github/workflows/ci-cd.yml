@@ -18,7 +18,7 @@ jobs:
         with:
           python-version: 3.x
 
-     - name: Check if requirements.txt has changes
+      - name: Check if requirements.txt has changes
         id: check_requirements
         run: |
           git fetch
@@ -35,10 +35,4 @@ jobs:
         run: |
           rsync -a --exclude='credentials.py' --exclude='*.dist' --exclude='myenv' -e "ssh -o StrictHostKeyChecking=no -i ${{ secrets.VULTR_SSH_KEY }}" ./ ${{ secrets.VULTR_SSH_USER }}@${{ secrets.VULTR_SERVER_IP }}:/opt/admin_roie/
 
-      - name: Restart roieapp service
-        run: |
-          ssh -o StrictHostKeyChecking=no -i ${{ secrets.VULTR_SSH_KEY }} ${{ secrets.VULTR_SSH_USER }}@${{ secrets.VULTR_SERVER_IP }} "sudo systemctl restart roieapp"
-
-      - name: Restart Apache server
-        run: |
-          ssh -o StrictHostKeyChecking=no -i ${{ secrets.VULTR_SSH_KEY }} ${{ secrets.VULTR_SSH_USER }}@${{ secrets.VULTR_SERVER_IP }} "sudo systemctl restart apache2"
+      - name: Restart roie
