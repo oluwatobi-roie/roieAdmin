@@ -27,11 +27,11 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        ssh -o StrictHostKeyChecking=no -i ${{ secrets.VULTR_SSH_KEY }} ${{ secrets.VULTR_SSH_USER}}@${{ secrets.VULTR_SERVER_IP }} "cd /opt/roieadmin/ && python3 -m venv myenv && source myenv/bin/activate && pip install -r requirements.txt"
+        ssh -o StrictHostKeyChecking=no -i ${{ secrets.VULTR_SSH_KEY }} ${{ secrets.VULTR_SSH_USER}}@${{ secrets.VULTR_SERVER_IP }} "cd /opt/admin_roie/ && python3 -m venv myenv && source myenv/bin/activate && pip install -r requirements.txt"
 
     - name: copy files to admin folder
       run: |
-       rsync -a --exclude='credential.py' --exclude='*.dist' --exclude='myenv' -e "ssh -o StrictHostKeyChecking=no -i ${{ secrets.VULTR_SSH_KEY }}" ./ ${{ secrets.VULTR_SSH_USER }}@${{ secrets.VULTR_SERVER_IP }}:/opt/roieadmin/
+       rsync -a --exclude='credentials.py' --exclude='*.dist' --exclude='myenv' -e "ssh -o StrictHostKeyChecking=no -i ${{ secrets.VULTR_SSH_KEY }}" ./ ${{ secrets.VULTR_SSH_USER }}@${{ secrets.VULTR_SERVER_IP }}:/opt/admin_roie/
 
     - name: Restart roieapp service
         run: |
