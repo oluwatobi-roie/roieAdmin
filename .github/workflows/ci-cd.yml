@@ -25,9 +25,7 @@ jobs:
       - name: Install Dependencies
         if: steps.check_requirements.outputs.changed == 'true'
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          ssh -o StrictHostKeyChecking=no -i ${{ secrets.VULTR_SSH_KEY }} ${{ secrets.VULTR_SSH_USER}}@${{ secrets.VULTR_SERVER_IP }} "cd /opt/admin_roie/ && python3 -m venv myenv && source myenv/bin/activate && pip install -r requirements.txt"
+          ssh -o StrictHostKeyChecking=no -i ${{ secrets.VULTR_SSH_KEY }} ${{ secrets.VULTR_SSH_USER }}@${{ secrets.VULTR_SERVER_IP }} "cd /opt/admin_roie/ && python3 -m venv myenv && source myenv/bin/activate && pip install --upgrade pip && pip install -r requirements.txt"
 
       - name: copy files to admin folder
         run: |
