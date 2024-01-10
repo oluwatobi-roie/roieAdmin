@@ -3,7 +3,7 @@ name: CI/CD for Roie Admin Flask app
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   deploy:
