@@ -19,7 +19,7 @@ jobs:
           python-version: 3.x
 
       - name: set up SSH
-        uses: webfactor/ssh-agent@v0.5.3
+        uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.VULTR_SSH_KEY}}
 
