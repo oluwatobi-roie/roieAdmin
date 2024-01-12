@@ -23,11 +23,10 @@ jobs:
           eval $(ssh-agent -s)
           ssh-add -D
 
-      - name: set up SSH
-        uses: appleboy/ssh-action@master
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
         with:
-          key: ${{ secrets.VULTR_SSH_KEY }}
-          known_hosts: ${{ secrets.VULTR_SSH_KNOWN_HOSTS }}
+          ssh-private-key: ${{ secrets.VULTR_SSH_KEY }}
 
       - name: Check if requirements.txt has changes
         id: check_requirements
