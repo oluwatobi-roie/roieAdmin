@@ -22,10 +22,9 @@ jobs:
         id: check_requirements
         run: |
           git fetch
-          git diff --name-only ${{ github.sha }}^1..${{ github.sha }}> changed_files.txt
-          cat changed_files.txt
+          git diff --name-only ${{ github.sha }}^..${{ github.sha }} > changed_files.txt cat 
+          changed_files.txt
           echo "changed=$(if grep -q 'requirements.txt' changed_files.txt; then echo 'true'; else echo 'false'; fi)" >> $GITHUB_ENV
-
       - name: Install Dependencies
         if: env.changed == 'true'
         run: |
