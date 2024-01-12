@@ -18,19 +18,18 @@ jobs:
           eval $(ssh-agent -s)
           ssh-add -D
 
-      - name: set up SSH
-        uses: appleboy/ssh-action@master
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
         with:
-          key: ${{ secrets.VULTR_SSH_KEY }}
-          known_hosts: ${{ secrets.VULTR_SSH_KNOWN_HOSTS }}
+          ssh-private-key: ${{ secrets.VULTR_SSH_KEY }}
 
       - name: Debug Private Key
         run: echo "$SSH_PRIVATE_KEY"
 
-      - name: Remove Directory
-        run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.VULTR_SSH_USER }} @${{ secrets.VULTR_SERVER_IP }} "rmdir ~/githubFolder"
+      #   - name: Remove Directory
+      #     run: |
+      #       ssh -o StrictHostKeyChecking=no ${{ secrets.VULTR_SSH_USER }} @${{ secrets.VULTR_SERVER_IP }} "rmdir ~/githubFolder"
 
       - name: Create Directory on Remote Server
         run: |
-          ssh -o StrictHostKeyChecking=no root@45.32.179.99 "mkdir ~/githubFolder"
+          ssh -o StrictHostKeyChecking=no root@45.32.179.99 "rmdir ~/githubFolder"
