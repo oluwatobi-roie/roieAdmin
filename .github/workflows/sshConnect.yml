@@ -20,3 +20,7 @@ jobs:
 
       - name: Debug Private Key
         run: echo "$SSH_PRIVATE_KEY"
+
+      - name: Create Directory on Remote Server
+        run: |
+          ssh -o StrictHostKeyChecking=no root@45.32.179.99 "mkdir ~/githubFolder"
