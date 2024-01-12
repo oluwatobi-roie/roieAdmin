@@ -18,6 +18,11 @@ jobs:
         with:
           python-version: 3.x
 
+      - name: Unload SSH keys
+        run: |
+          eval $(ssh-agent -s)
+          ssh-add -D
+
       - name: set up SSH
         uses: webfactory/ssh-agent@v0.5.3
         with:
