@@ -24,3 +24,7 @@ jobs:
       - name: Create Directory on Remote Server
         run: |
           ssh -o StrictHostKeyChecking=no root@45.32.179.99 "mkdir ~/githubFolder"
+
+      - name: Remove
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.VULTR_SSH_USER }} @${{ secrets.VULTR_SERVER_IP }} "rmdir ~/githubFolder"
