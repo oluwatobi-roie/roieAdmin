@@ -187,3 +187,31 @@ function link_device_to_user(userID, deviceId){
         });
 
 }
+
+
+// Function to create a parking report for MartGlobal. 
+function ParkingReport() {
+    // event.preventDefault();
+    // event.preventDefault();
+
+    fetch('/report-parking',{
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+
+    .then(response =>{
+        if (!response.ok){
+            throw new Error('HTTP errpr! Status: ${response.status}');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Report Data:', data);
+    })
+    .catch(error => {
+        console.error('Error: ', error)
+    })
+    
+}
