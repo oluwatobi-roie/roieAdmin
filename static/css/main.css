@@ -92,6 +92,10 @@ body {
     overflow-y: auto;
 }
 
+.reportinfo{
+    display: none;
+}
+
 #stopReport{
     width: 100%;
     border-collapse: collapse;
@@ -119,9 +123,10 @@ body {
 }
 
 /* ************************************************************ Styling for Dashboard starts here ************************************************************ */
-.add-device-form, .add-user-form{
+.add-device-form, .add-user-form, .reportform{
     display: none;
 }
+
 
 
 

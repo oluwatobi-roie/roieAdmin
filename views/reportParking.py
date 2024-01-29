@@ -6,32 +6,44 @@ from views.utils import get_devices, get_geofence, fromIsotoString, fromMillisec
 
 
 parkingreport_bp = Blueprint('parking_report', __name__)
-@parkingreport_bp.route('/report-parking', methods=["GET"])
+@parkingreport_bp.route('/report-parking', methods=["POST"])
 def parking_report():
     stop_report_api_url = f'{endpoint}reports/stops?'
     session_cookie = session.get('traccar_session_cookie')
     # check if a session currently exist
     
     if 'traccar_session_cookie' in session:
-        if request.method == 'GET':
+        if request.method == 'POST':
             traccar_api_headers = {
                 'Cookie': f'JSESSIONID = {session_cookie}',
                 'Accept': 'application/json',
                 }
-            current_datetime = datetime.now(timezone.utc)
-            one_week_ago = current_datetime - timedelta(days=7)
             
-            devices_data = get_devices(session['traccar_session_cookie'])
-            deviceID = []
+            formdata = request.json
 
-            for i in devices_data:
-                deviceID.append(i['id'])
 
+            current_datetime = datetime.now(timezone.utc)
+            current_date_isoFormated = current_datetime.replace(tzinfo=timezone.utc).isoformat()
+
+            print(formdata)
+            # fromDate = daysago.replace(tzinfo=timezone.utc).isoformat(),
+            # toDate = current_datetime.replace(tzinfo=timezone.utc).isoformat(),
+
+            # fromDate = datetime.fromisoformat(formdata.get('fromDate'))
+            # toDate = datetime.fromisoformat(formdata.get('toDate'))
+
+            fromDate = formdata.get('fromDate')
+            toDate = formdata.get('toDate')
+
+            print("fromDate: ", formdata.get('fromDate'))
+            print("current date iso Formated: ", current_date_isoFormated)
+            print('fromDate iso Format: ', fromDate)
             data = {
                 # 'deviceId': deviceID[3],	
-                'deviceId': 1046,
-                'from': one_week_ago.replace(tzinfo=timezone.utc).isoformat(),
-                'to': current_datetime.replace(tzinfo=timezone.utc).isoformat(),
+                # 'deviceId': 1046,
+                'deviceId': 5,
+                'from': fromDate,
+                'to': toDate,
            }
             
 
@@ -42,6 +54,7 @@ def parking_report():
             formated_data = []
             if stop_response.status_code == 200:
                 response_data = stop_response.json()
+
                 for items in response_data:
                     geofence_name = get_geofence(items['positionId'])
 
