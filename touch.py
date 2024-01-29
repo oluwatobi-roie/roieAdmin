@@ -57,4 +57,4 @@ def notification_wizard(type):
             "notificators":"traccar,firebase,web,mail"
         }
         return  data
-    
+

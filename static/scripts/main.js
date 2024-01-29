@@ -191,8 +191,11 @@ function link_device_to_user(userID, deviceId){
 
 // Function to create a parking report for MartGlobal. 
 function ParkingReport() {
-    // event.preventDefault();
-    // event.preventDefault();
+
+    document.querySelector('.reportDisplay').style.display="block";
+    document.querySelector('.Report').style.display='none';
+    var tableBody = document.getElementById("stopReport").getElementsByTagName("tbody")[0];
+    tableBody.innerHTML = '';
 
     fetch('/report-parking',{
         method: 'GET',
@@ -208,8 +211,24 @@ function ParkingReport() {
         return response.json();
     })
     .then(data => {
-        console.log('Report Data:', data);
+        document.querySelector('.loading').style.display='none';
+        document.querySelector('.Report').style.display='block';
+        
+        data.forEach(item => {
+            var row = tableBody.insertRow();
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
+            var cell4 = row.insertCell(3);
+
+            cell1.innerHTML = item.startTime;
+            cell2.innerHTML = item.endTime;
+            cell3.innerHTML = item.address;
+            cell4.innerHTML = item.duration;
+        });
+
     })
+
     .catch(error => {
         console.error('Error: ', error)
     })

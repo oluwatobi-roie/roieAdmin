@@ -4,7 +4,7 @@ body {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #012345;
     background-color: #fefefe;
-    overflow-y: hidden;
+    /* overflow-y: hidden; */
     overflow-x: hidden;
 
 }
@@ -86,8 +86,37 @@ body {
     display: none;
 }
 
+.reportDisplay{
+    display: none;
+    height: 400px;
+    overflow-y: auto;
+}
 
+#stopReport{
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
 
+#stopReport thead {
+    background-color: #f2f2f2;
+    border: 1px solid #dddddd;
+    padding: 8px;
+    text-align: left;
+}
+
+#stopReport td {
+    border: 1px solid #dddddd;
+    padding: 8px;
+}
+
+#stopReport tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+#stopReport tbody tr:hover {
+    background-color: #f2f2f2;
+}
 
 /* ************************************************************ Styling for Dashboard starts here ************************************************************ */
 .add-device-form, .add-user-form{

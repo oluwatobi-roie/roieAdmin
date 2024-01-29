@@ -1,3 +1,4 @@
+from datetime import datetime
 import requests
 from flask import session
 from touch import roie_endpoint as endpoint
@@ -51,3 +52,28 @@ def get_geofence(id):
         print(position_response.status_code, " Error")
         return None
 
+def fromIsotoString(isoFormat):
+    date_time = datetime.fromisoformat(isoFormat.replace('Z', '+00:00'))
+
+    # Format the date and time
+    formatted_date_time = date_time.strftime("%Y-%m-%d %H:%M:%S")
+
+    return formatted_date_time
+
+def fromMillisectoSec(duration):
+    duration = duration/1000
+    days, remainder = divmod(duration, 86400)
+    hours, remainder = divmod(remainder, 3600)
+    minutes, seconds = divmod(remainder, 60)
+
+    duration_string = ""
+    if days > 0:
+        duration_string += f"{int(days)} days, "
+    if hours > 0:
+        duration_string += f"{int(hours)} hours, "
+    if minutes > 0:
+        duration_string += f"{int(minutes)} minutes, "
+    if seconds > 0:
+        duration_string += f"{int(seconds)} seconds"
+
+    return duration_string
