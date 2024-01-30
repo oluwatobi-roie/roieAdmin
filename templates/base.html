@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> {% block title %} base {% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <script src="{{ url_for('static', filename='scripts/main.js') }}"></script>
+</head>
+
+<body>
+    <div class="content">
+        <h1> Welcome {{ user_name }}</h1>
+        <button type="submit"><a href="/logout">Logout</a></button>
+        <button class="task_button" id="parkingReport" onclick="showParkingReportForm()"> Parking Report </button>
+        
+        
+        <div class="reportform">
+            <form id="filterForm" onsubmit="ParkingReport(event)">
+                <div>
+                    <label for="selectedDevices">Select Devices:</label>
+                    <select id="selectedDevices" name="selectedDevices[]" multiple>
+                        {% for device in devices_data %}
+                        <option value="{{ device['id'] }}">{{ device['name'] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label for="dateRange">Select Date Range:</label>
+                    <select id="dateRange" name="dateRange">
+                        <option value="today">Today</option>
+                        <option value="yesterday">Yesterday</option>
+                        <option value="custom">Custom</option>
+                    </select>
+                </div>
+                <div id="customDateInputs" style="display: none;">
+                    <label for="fromDate">From:</label>
+                    <input type="date" id="fromDate" name="fromDate">
+                    <label for="toDate">To:</label>
+                    <input type="date" id="toDate" name="toDate">
+                </div>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+        
+        <div class="reportDisplay" id="reportDisplay">
+            <h4 class="loading">Loading... Please Wait </h4>
+            <div class="reportinfo">
+                <button onclick="printReport()">Print Report</button>
+                <h2>Stop Report</h2>
+                <h4 id="deviceName"></h4>
+                <h4 id="reportFrom"></h4>
+                <h4 id="reportTo"></h4>
+                <table id="stopReport">
+                    <thead>
+                        <tr>
+                            <th> S/N </th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th>Address</th>
+                            <th>Duration</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- auto fill from javascript -->
+                    </tbody>
+        
+                </table>
+            </div>
+        
+        </div>
+        {% block content %}
+            <!-- here the details from sites are reflective -->
+        {% endblock %}
+    </div>
+
+</body>
+
+</html>
