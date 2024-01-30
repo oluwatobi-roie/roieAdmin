@@ -20,7 +20,7 @@
             <form id="filterForm" onsubmit="ParkingReport(event)">
                 <div>
                     <label for="selectedDevices">Select Devices:</label>
-                    <select id="selectedDevices" name="selectedDevices[]">
+                    <select id="selectedDevices" name="selectedDevices[]" >
                         {% for device in devices_data %}
                         <option value="{{ device['id'] }}">{{ device['name'] }}</option>
                         {% endfor %}
@@ -47,26 +47,34 @@
         <div class="reportDisplay" id="reportDisplay">
             <h4 class="loading">Loading... Please Wait </h4>
             <div class="reportinfo">
-                <button onclick="printReport()">Print Report</button>
-                <h2>Stop Report</h2>
-                <h4 id="deviceName"></h4>
-                <h4 id="reportFrom"></h4>
-                <h4 id="reportTo"></h4>
-                <table id="stopReport">
-                    <thead>
-                        <tr>
-                            <th> S/N </th>
-                            <th>Start Time</th>
-                            <th>End Time</th>
-                            <th>Address</th>
-                            <th>Duration</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- auto fill from javascript -->
-                    </tbody>
-        
-                </table>
+                <div class="report_info_data">
+                    <button onclick="printReport()">Print Report</button>
+                    <div style="text-align: center;">
+                        <h4>Stop Report</h4>
+                    </div>
+                    <p id="deviceName"></p>
+                    <p id="reportFrom"></p>
+                    <p id="reportTo"></p>
+                </div>
+
+                <div class="reportTable">
+                    <table id="stopReport">
+                        <thead>
+                            <tr>
+                                <th> S/N </th>
+                                <th>Start Time</th>
+                                <th>End Time</th>
+                                <th>Address</th>
+                                <th>Duration</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- auto fill from javascript -->
+                        </tbody>
+                    
+                    </table>
+                </div>
+                
             </div>
         
         </div>

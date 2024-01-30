@@ -233,8 +233,8 @@ function ParkingReport(event) {
     if (dateRange === 'custom') {
         fromDate = document.getElementById('fromDate').value;
         toDate = document.getElementById('toDate').value;
-        fromDate += 'T00:00:00+00:00';
-        toDate += 'T23:59:59+00:00';
+        fromDate  += 'T00:00:00+00:00';
+        toDate  += 'T23:59:59+00:00';
     } else if (dateRange === 'today') {
         var currentDate = new Date();
         fromDate = currentDate.toISOString().split('T')[0] + 'T00:00:00+00:00';
@@ -275,7 +275,7 @@ function ParkingReport(event) {
 
     .then(response =>{
         if (!response.ok){
-            throw new Error('HTTP errpr! Status: ${response.status}');
+            throw new Error('HTTP error! Status: ${response.status}');
         }
         return response.json();
     })
@@ -285,9 +285,6 @@ function ParkingReport(event) {
         var deviceName = document.getElementById('deviceName');
         var reportFrom = document.getElementById('reportFrom');
         var reportTo = document.getElementById('reportTo');
-        deviceName.innerHTML = "Demo Bike";
-        reportFrom.innerHTML = "29th Jan 2023";
-        reportTo.innerHTML = "21st Jan 2023";
         var i = 1
         
         tableBody.innerHTML = '';
@@ -303,9 +300,14 @@ function ParkingReport(event) {
             cell3.innerHTML = item.endTime;
             cell4.innerHTML = item.address;
             cell5.innerHTML = item.duration;
-
+            
+            plateNo = item.deviceName;
             i++;
         });
+
+        deviceName.innerHTML = "<em> Vehicel Name: </em>" + plateNo;
+        reportFrom.innerHTML = "<em>From:</em> " + formatDate(fromDate);
+        reportTo.innerHTML = "<em>To:</em> " + formatDate(toDate);
         document.querySelector('.reportinfo').style.display='block';
         parkingReportButton.disabled = true;
     })
@@ -336,4 +338,22 @@ function printReport() {
 }
 
 
+function formatDate(inputDate) {
+    // Create a Date object from the input string
+    var dateObj = new Date(inputDate);
+
+    // Get the date components
+    var year = dateObj.getUTCFullYear();
+    var month = (dateObj.getUTCMonth() + 1).toString().padStart(2, '0'); // Months are zero-indexed
+    var day = dateObj.getUTCDate().toString().padStart(2, '0');
+
+    // Get the time components
+    var hours = dateObj.getUTCHours().toString().padStart(2, '0');
+    var minutes = dateObj.getUTCMinutes().toString().padStart(2, '0');
+
+    // Format the result string
+    var formattedDate = `${year}-${month}-${day} (${hours}:${minutes})`;
+
+    return formattedDate;
+}
 

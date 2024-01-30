@@ -1,8 +1,7 @@
-from datetime import datetime, timedelta, timezone
 from flask import Blueprint, session, request
 import requests
 from touch import roie_endpoint as endpoint
-from views.utils import get_devices, get_geofence, fromIsotoString, fromMillisectoSec
+from views.utils import get_geofence, fromIsotoString, fromMillisectoSec
 
 
 parkingreport_bp = Blueprint('parking_report', __name__)
@@ -21,27 +20,15 @@ def parking_report():
             
             formdata = request.json
 
-
-            current_datetime = datetime.now(timezone.utc)
-            current_date_isoFormated = current_datetime.replace(tzinfo=timezone.utc).isoformat()
-
-            print(formdata)
-            # fromDate = daysago.replace(tzinfo=timezone.utc).isoformat(),
-            # toDate = current_datetime.replace(tzinfo=timezone.utc).isoformat(),
-
-            # fromDate = datetime.fromisoformat(formdata.get('fromDate'))
-            # toDate = datetime.fromisoformat(formdata.get('toDate'))
+            print("formData: ", formdata)
+            print("Length: ", len(formdata.get('selectedDevices')), "Vehicle(s) Selected")
 
             fromDate = formdata.get('fromDate')
             toDate = formdata.get('toDate')
-
-            print("fromDate: ", formdata.get('fromDate'))
-            print("current date iso Formated: ", current_date_isoFormated)
-            print('fromDate iso Format: ', fromDate)
+            
+    
             data = {
-                # 'deviceId': deviceID[3],	
-                # 'deviceId': 1046,
-                'deviceId': 5,
+                'deviceId': formdata.get('selectedDevices'),
                 'from': fromDate,
                 'to': toDate,
            }

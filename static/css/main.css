@@ -127,7 +127,38 @@ body {
     display: none;
 }
 
+.report_info_data {
+    display: flex;
+    flex-direction: column;
+}
 
+.reportDisplay{
+    background-color: rgb(222, 220, 220);
+}
+
+.report_info_data button{
+    margin-top: 30px;
+    float: left;
+    background-color: rgb(33, 33, 113);
+    color: white;
+    width: fit-content;
+    height: 30px;
+    border-radius: 5px;
+}
+.report_info_data p {
+    width: 80%;
+    margin-left: 20px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+    /* Adjust margin as needed */
+}
+
+.reportTable{
+    width: 100%;
+    margin: 30px auto;
+}
 
 
 @media screen and (max-width: 480px) {
