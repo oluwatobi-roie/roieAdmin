@@ -31,7 +31,7 @@ def index():
             return render_template('index.html', message="You are not authorized to use this feature")
         
         elif status == 'premium':
-            return render_template('premiumdb.html')
+            return render_template('premiumdb.html', user_name = user_name, devices_data = devices_data)
         
         elif status == 'admin':   
             if devices_data:
