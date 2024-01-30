@@ -31,12 +31,10 @@ def login():
             session['user_id'] = traccar_data.get('id')
 
 
-            # print(traccar_data) #this is for debug
             return redirect(url_for('index'))
         else:
             return render_template('index.html', error='Invalid Credentials')
     return render_template('index.html')
-    # return redirect(url_for('index'))
 
 
 
