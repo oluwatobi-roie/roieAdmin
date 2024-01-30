@@ -2,6 +2,8 @@ from flask import Blueprint, render_template, request, redirect, url_for, sessio
 import requests
 from requests.auth import HTTPBasicAuth
 
+from touch import userRestriction
+
 
 login_bp = Blueprint('login', __name__)
 logout_bp = Blueprint('logout', __name__)
@@ -29,6 +31,7 @@ def login():
             traccar_data = traccar_response.json()
             session['user_name'] = traccar_data.get('name')
             session['user_id'] = traccar_data.get('id')
+            session['accessLevel'] = userRestriction(traccar_data.get('id'))
 
 
             return redirect(url_for('index'))
