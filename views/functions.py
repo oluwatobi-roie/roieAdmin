@@ -23,7 +23,7 @@ def add_device():
     session_cookie = session.get('traccar_session_cookie')
     # check if a session currently exist
     
-    if 'traccar_session_cookie' in session:
+    if 'traccar_session_cookie' in session and session.get('accessLevel') == 'admin':
         if request.method == 'POST':
             traccar_api_headers = {'Cookie': f'JSESSIONID = {session_cookie}'}
             data = {
