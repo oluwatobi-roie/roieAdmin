@@ -12,10 +12,10 @@ def userRestriction(id):
     adminuser = [1, 481, 856]
     premiumUser = [725]
 
-    if id in adminuser:
-        return("admin")
-    elif id in premiumUser:
+    if id in premiumUser:
         return("premium")
+    elif id in adminuser:
+        return("admin")
     else:
         return ("unathorized")
 
