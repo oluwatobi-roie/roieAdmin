@@ -20,7 +20,7 @@
             <form id="filterForm" onsubmit="ParkingReport(event)">
                 <div>
                     <label for="selectedDevices">Select Devices:</label>
-                    <select id="selectedDevices" name="selectedDevices[]" multiple>
+                    <select id="selectedDevices" name="selectedDevices[]">
                         {% for device in devices_data %}
                         <option value="{{ device['id'] }}">{{ device['name'] }}</option>
                         {% endfor %}
