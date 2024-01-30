@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium User Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <script src="{{ url_for('static', filename='scripts/main.js') }}"></script>
+</head>
+
+<body>
+
+    <h1> Welcome {{ user_name }}</h1>
+    <button type="submit"><a href="/logout">Logout</a></button>
+
+    <!-- button to open and close add device form -->
+    <button class="task_button add_btn" 
+    onclick="showAddDeviceForm()"> Add New Device </button>
+    <button type="button" class="close_btn" onclick="hideAddDeviceForm()">Close Device Forms</button>
+
+    <!-- button to open and close add user form -->
+    <button class="task_button add_user_btn" onclick="showAddUserForm()"> Add New User </button>
+
+    <button class="task_button close_user_btn" onclick="hideAddUserForm()"> Close User Form </button>
+
+    <button class="task_button" id="parkingReport" onclick="showParkingReportForm()"> Parking Report </button>
+
+
+    <div class="add-device-form">   
+        <h2>Add New Device</h2>
+        <form id="deviceForm" onsubmit="addDevice(event)">
+            <!-- Add your input fields here -->
+
+            <div class="device-info">
+                <div class="add-device-form-item">
+                    <label for="platenumber">Plate Number:</label>
+                    <input type="text" id="platenumber" name="platenumber" placeholder="Plate Number" required>
+                </div>
+
+                <div class="add-device-form-item">
+                    <label for="uniqueid">Device Imei:</label>
+                    <input type="number" id="uniqueid" name="uniqueid" placeholder="Device Imei" required>
+                </div>
+
+                <div class="add-device-form-item">
+                    <label for="devicephone">Device Phone:</label>
+                    <input type="phone" id="devicephone" name="devicephone" placeholder="08012345678" required>
+                </div>
+
+                <div class="add-device-form-item">
+                    <label for="simcarrier"> Sim Carrier </label>
+                    <select name="simcarrier" id="simcarrier">
+                        <option value="9mobile" selected>9mobile</option>
+                        <option value="MTN">MTN</option>
+                        <option value="Airtel">Airtel</option>
+                    </select>
+                </div>
+                
+                <div class="add-device-form-item">
+                    <label for="category">Category</label>
+                    <select name="category" id="category">
+                        <option value="Car" selected>Car</option>
+                        <option value="SUV" selected>Suv</option>
+                        <option value="Truck" selected>Truck</option>
+                        <option value="Okada" selected>Okada</option>
+                        <option value="Others" selected>Others</option>
+                    </select>
+                </div>
+
+                <div class="add-device-form-item">
+                    <label for="renewalcost">Renewal Cost</label>
+                    <input type="number" name="renewalcost" id="renewalcost">
+                </div>
+                
+                <div class="add-device-form-item">
+                </div>
+            </div>
+            <button type="submit">Add Device</button>
+        </form>
+    </div>
+
+
+    <div class="add-user-form">
+        <h2>Add New User </h2>
+        <form id="userFor" onsubmit="addUsers(event)">
+            <!-- Add your input fields here -->
+
+            <div class="user-info">
+                <div class="add-user-form-item">
+                    <label for="u_name">full Name</label>
+                    <input type="text" id="u_name" name="u_name" placeholder="Full Name" required>
+                </div>
+    
+                <div class="add-user-form-item">
+                    <label for="u_email">Email: </label>
+                    <input type="email" id="u_email" name="u_email" placeholder="example@example.com" required>
+                </div>
+    
+                <div class="add-user-form-item">
+                    <label for="u_phone">Phone:</label>
+                    <input type="phone" id="u_phone" name="u_phone" placeholder="08012345678" required>
+                </div>
+            </div>
+            <button type="submit">Add User</button>
+        </form>
+    </div>
+
+    <div class="reportform">
+        <form id="filterForm" onsubmit="ParkingReport(event)">
+            <div>
+                <label for="selectedDevices">Select Devices:</label>
+                <select id="selectedDevices" name="selectedDevices[]" multiple>
+                    {% for device in devices_data %}
+                    <option value="{{ device['id'] }}">{{ device['name'] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="dateRange">Select Date Range:</label>
+                <select id="dateRange" name="dateRange">
+                    <option value="today">Today</option>
+                    <option value="yesterday">Yesterday</option>
+                    <option value="custom">Custom</option>
+                </select>
+            </div>
+            <div id="customDateInputs" style="display: none;">
+                <label for="fromDate">From:</label>
+                <input type="date" id="fromDate" name="fromDate">
+                <label for="toDate">To:</label>
+                <input type="date" id="toDate" name="toDate">
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <div class="reportDisplay" id="reportDisplay">
+        <h4 class="loading">Loading... Please Wait </h4>
+        <div class = "reportinfo"> 
+            <button onclick="printReport()">Print Report</button>
+            <h2>Stop Report</h2>
+            <h4 id="deviceName"></h4>
+            <h4 id="reportFrom"></h4>
+            <h4 id="reportTo"></h4>
+            <table id="stopReport">
+                <thead>
+                    <tr>
+                        <th> S/N </th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Address</th>
+                        <th>Duration</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- auto fill from javascript -->
+                </tbody>
+
+            </table>
+        </div>
+
+    </div>
+
+    
+    <div>
+        {% if devices_data %}
+        <h2> Devices </h2>
+        <ul>
+            {% for device in devices_data %}
+            <li>
+                {{ device['name'] }} <button type="button" class="linkToUserBtn" data-device-id="{{ device['id'] }}">Link to User</button>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+
+
+    </div>
+
+
+    <h1>{{ error }}</h1>
+
+
+</body>
+
+</html>
