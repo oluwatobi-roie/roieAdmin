@@ -7,6 +7,21 @@ myKey = '75392fe36ed27a058c950b427bb9a60e'
 roie_endpoint = 'https://track.roie.com.ng/api/'
 
 
+
+def userRestriction(id):
+    adminuser = [1, 481, 856]
+    premiumUser = [725]
+
+    if id in adminuser:
+        return("admin")
+    elif id in premiumUser:
+        return("premium")
+    else:
+        return ("unathorized")
+
+
+
+
 def getOneYearDate():
     # Get the current date and time
     current_datetime = datetime.now(timezone.utc)
