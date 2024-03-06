@@ -9,8 +9,8 @@ roie_endpoint = 'https://track.roie.com.ng/api/'
 
 
 def userRestriction(id):
-    adminuser = [1, 481]
-    premiumUser = [725, 856]
+    adminuser = [1, 481, 856]
+    premiumUser = [725]
 
     if id in premiumUser:
         return("premium")
